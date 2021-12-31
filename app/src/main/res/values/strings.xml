@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Bookly</string>
+    <string name="welcome_message">Welcome to Library</string>
+    <string name="issueNewBtn_text">Issue new book</string>
+    <string name="currently_issued_btn">Currently issued</string>
+</resources>
