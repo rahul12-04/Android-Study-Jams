@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_scanFragment"
             app:destination="@id/scanFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_issuedFragment"
+            app:destination="@id/issuedFragment" />
     </fragment>
     <fragment
         android:id="@+id/scanFragment"
@@ -23,4 +26,9 @@
             android:id="@+id/action_scanFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/issuedFragment"
+        android:name="com.example.bookly.IssuedFragment"
+        android:label="fragment_issued"
+        tools:layout="@layout/fragment_issued" />
 </navigation>

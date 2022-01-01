@@ -1,16 +1,17 @@
 package com.example.bookly
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
 interface BookDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(book: Book)
+    suspend fun insert(book: Book)
 
     @Delete
-    fun delete(book: Book)
+    suspend fun delete(book: Book)
 
     @Query("Select * from books_table order by bookName ASC")
-    fun getAllBooks():List<Book>
+    fun getAllBooks(): LiveData<List<Book>>
 }
