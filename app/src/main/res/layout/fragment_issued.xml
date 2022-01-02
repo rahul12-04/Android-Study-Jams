@@ -1,14 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    tools:context=".IssuedFragment">-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/booksIssuedHeading"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="#20d43b"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:fontFamily="casual"-->
+<!--        android:gravity="center"-->
+<!--        android:text="@string/booksIssuedHeadingMessage"-->
+<!--        android:textSize="30sp"-->
+<!--        android:textStyle="bold"-->
+<!--         />-->
+
+<!--</FrameLayout>-->
+<!--    android:background="@drawable/library_background_img"-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".IssuedFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/library_background_img"
+        android:alpha="0.8"/>
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/booksIssuedHeading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#20d43b"
+        android:fontFamily="casual"
+        android:gravity="center"
+        android:text="@string/booksIssuedHeadingMessage"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.089" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/booksIssuedHeading"
+        app:layout_constraintVertical_bias="0.116"
+        tools:layout_editor_absoluteX="0dp"
+        tools:listitem="@layout/item_book"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

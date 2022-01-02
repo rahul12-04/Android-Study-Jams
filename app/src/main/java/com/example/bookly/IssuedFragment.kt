@@ -1,39 +1,47 @@
 package com.example.bookly
 
-import android.app.Application
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
-class IssuedFragment : Fragment() {
+class IssuedFragment : Fragment(),IBooksRVAdapter {
 
     lateinit var viewModel: BookViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        viewModel = ViewModelProvider(this,
-            ViewModelProvider.AndroidViewModelFactory.getInstance(Application()))
-            .get(BookViewModel::class.java)
-
-        viewModel.allBooks.observe(this, Observer {
-
-        })
-
-
-    }
-
+    lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_issued, container, false)
+        val view =  inflater.inflate(R.layout.fragment_issued, container, false)
+
+        recyclerView = view.findViewById(R.id.recyclerViewId)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        val adapter = BooksRVAdapter(requireContext(),this)
+        recyclerView.adapter = adapter
+
+        viewModel = ViewModelProvider(this).get(BookViewModel::class.java)
+
+        viewModel.allBooks.observe(viewLifecycleOwner, Observer {list ->
+            list?.let {
+                adapter.updateList(it)
+            }
+        })
+
+        return view
     }
+
+
+    override fun onItemClicked(book: Book) {
+        viewModel.deleteBook(book)
+    }
+
 
 }

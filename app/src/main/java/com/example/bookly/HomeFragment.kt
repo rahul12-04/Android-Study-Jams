@@ -28,6 +28,7 @@ class HomeFragment : Fragment() {
         }
         curIssued.setOnClickListener {
 //            currentlyIssuedList(it)
+            findNavController().navigate(R.id.action_homeFragment_to_issuedFragment)
         }
 
         return view

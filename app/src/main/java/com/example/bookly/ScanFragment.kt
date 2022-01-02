@@ -1,6 +1,7 @@
 package com.example.bookly
 
 import android.Manifest
+import android.app.Application
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.budiyev.android.codescanner.*
 
@@ -22,6 +24,8 @@ class ScanFragment : Fragment() {
     private lateinit var scanner: CodeScanner
     private lateinit var scannerView:CodeScannerView
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
+
+    lateinit var viewModel: BookViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +50,9 @@ class ScanFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_scan, container, false)
+        val view = inflater.inflate(R.layout.fragment_scan, container, false)
+        viewModel = ViewModelProvider(this).get(BookViewModel::class.java)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -75,12 +81,14 @@ class ScanFragment : Fragment() {
 
                     //testing the app through toast
                     //toast will show the scanned text
-                    Toast.makeText(activity,it.text,Toast.LENGTH_LONG).show()
+//                    Toast.makeText(activity,it.text,Toast.LENGTH_LONG).show()
 
-                    //todo:Insert the code to fetch the book data using scanned id and subsequently add an entry in room database
-                    //note: we won't navigate to recyclerView activity from here. We will get back to MainActivity only
+                    //submitting the data to be added to our local database
+                    submitData(it.text.toString())
 
-                    //Activity will be finished here and we will get back to MainActivity
+
+
+                    //ScanCodeFragment will be finished here and we will get back to HomeFragment
                     findNavController().popBackStack()
                 }
             }
@@ -101,6 +109,16 @@ class ScanFragment : Fragment() {
             scanner.startPreview()
         }
 
+    }
+
+    private fun submitData(idBook: String) {
+        //todo:Insert the code to fetch the book data using scanned id and subsequently add an entry in room database
+        //todo:Write some code to get local date and pass it in below function in date parameter
+        //todo:Also replace one idBook with book name (String) received through API call from an online library database
+        viewModel.insertBook(Book(idBook,idBook.toInt(),"02-01-22"))
+
+        //todo:change idBook to bookName after fetching book details
+        Toast.makeText(requireContext(), "${idBook} successfully issued", Toast.LENGTH_SHORT).show()
     }
 
     //if we resume after some time
@@ -128,4 +146,5 @@ class ScanFragment : Fragment() {
             requestPermissionLauncher.launch(Manifest.permission.CAMERA)
         }
     }
+
 }
