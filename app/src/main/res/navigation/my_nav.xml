@@ -29,6 +29,6 @@
     <fragment
         android:id="@+id/issuedFragment"
         android:name="com.example.bookly.IssuedFragment"
-        android:label="fragment_issued"
+        android:label="Currently Issued"
         tools:layout="@layout/fragment_issued" />
 </navigation>

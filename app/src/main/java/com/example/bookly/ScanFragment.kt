@@ -15,6 +15,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.budiyev.android.codescanner.*
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class ScanFragment : Fragment() {
 
@@ -56,7 +58,7 @@ class ScanFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         scannerView = view.findViewById<CodeScannerView>(R.id.scanner_view)
         val activity = requireActivity()
-        //dynamically setting permissions
+        //Asking for crucial permissions during runtime
         setupPermissions()
         // if permissions are already granted then it will proceed further
 
@@ -77,14 +79,8 @@ class ScanFragment : Fragment() {
                 //running it only single thread
                 activity.runOnUiThread {
 
-                    //testing the app through toast
-                    //toast will show the scanned text
-//                    Toast.makeText(activity,it.text,Toast.LENGTH_LONG).show()
-
                     //submitting the data to be added to our local database
                     submitData(it.text.toString())
-
-
 
                     //ScanCodeFragment will be finished here and we will get back to HomeFragment
                     findNavController().popBackStack()
@@ -110,8 +106,46 @@ class ScanFragment : Fragment() {
     }
 
     private fun submitData(idBook: String) {
-        viewModel.insertBook(Book(idBook,idBook.toInt(),"05-01-22"))
-        Toast.makeText(requireContext(),"$idBook added Successfully",Toast.LENGTH_SHORT).show()
+        //fetching local date
+        val localDate = LocalDate.now()
+
+        //checking if id is valid or not
+        val idBookInt = try {
+            idBook.toInt()
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(),"Error:Invalid Code!",Toast.LENGTH_SHORT).show()
+            return
+        }
+        var bookName:String? = null
+        var i = 0
+
+        //here while developing we are searching on list already available with the app
+        //But this app could be further extended by adding a feature of retrieving book name
+        //corresponding to scanned id from an online library database. Online database
+        //and API for the app is also developed by Abhishek Purohit
+        //API for reading single entry can be accessed at :
+        //https://bookly-by-abhishek-purohit.herokuapp.com/api/book/read_single.php?id={$idBookInt}
+        //It returns a json object with "name" and "id" as keys
+        //Implementing request in synchronous way is in development
+
+        while(i<MainActivity.libdb.size){
+            if(MainActivity.libdb[i].id==idBookInt){
+                bookName= MainActivity.libdb[i].bookName
+                break
+            }
+            i++
+        }
+
+        //if there is no book with such id, then return
+        if(bookName==null){
+            Toast.makeText(requireContext(),"Code not found in library database! Please contact library staff",Toast.LENGTH_LONG).show()
+            return
+        }
+
+        //adding entry to BookDatabase
+        viewModel.insertBook(Book(bookName,idBookInt,
+            DateTimeFormatter.ofPattern("dd/MM/yyyy").format(localDate)))
+        Toast.makeText(requireContext(),"$bookName issued successfully",Toast.LENGTH_SHORT).show()
     }
 
     //if we resume after some time
