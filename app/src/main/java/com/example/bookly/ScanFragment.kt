@@ -1,7 +1,6 @@
 package com.example.bookly
 
 import android.Manifest
-import android.app.Application
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -12,9 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.budiyev.android.codescanner.*
@@ -54,6 +51,7 @@ class ScanFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(BookViewModel::class.java)
         return view
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         scannerView = view.findViewById<CodeScannerView>(R.id.scanner_view)
@@ -112,13 +110,8 @@ class ScanFragment : Fragment() {
     }
 
     private fun submitData(idBook: String) {
-        //todo:Insert the code to fetch the book data using scanned id and subsequently add an entry in room database
-        //todo:Write some code to get local date and pass it in below function in date parameter
-        //todo:Also replace one idBook with book name (String) received through API call from an online library database
-        viewModel.insertBook(Book(idBook,idBook.toInt(),"02-01-22"))
-
-        //todo:change idBook to bookName after fetching book details
-        Toast.makeText(requireContext(), "${idBook} successfully issued", Toast.LENGTH_SHORT).show()
+        viewModel.insertBook(Book(idBook,idBook.toInt(),"05-01-22"))
+        Toast.makeText(requireContext(),"$idBook added Successfully",Toast.LENGTH_SHORT).show()
     }
 
     //if we resume after some time

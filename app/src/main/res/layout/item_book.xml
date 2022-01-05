@@ -35,13 +35,15 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         tools:text="02-01-22" />
 
     <ImageView
         android:id="@+id/returnBtn"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/white"
+        android:background="#FFC107"
         app:layout_constraintBottom_toBottomOf="@+id/textDate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView"
